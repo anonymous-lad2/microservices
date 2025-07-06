@@ -1,10 +1,13 @@
 package com.happysat.accounts.service.Impl;
 
 import com.happysat.accounts.constants.AccountsConstants;
+import com.happysat.accounts.dto.AccountsDto;
 import com.happysat.accounts.dto.CustomerDto;
 import com.happysat.accounts.entity.Accounts;
 import com.happysat.accounts.entity.Customer;
 import com.happysat.accounts.exception.CustomerAlreadyExistsException;
+import com.happysat.accounts.exception.ResourceNotFoundException;
+import com.happysat.accounts.mapper.AccountsMapper;
 import com.happysat.accounts.mapper.CustomerMapper;
 import com.happysat.accounts.repository.AccountRepository;
 import com.happysat.accounts.repository.CustomerRepository;
@@ -52,5 +55,20 @@ public class AccountsServiceImpl implements AccountsService {
         newAccount.setCreatedAt(LocalDateTime.now());
         newAccount.setCreatedBy("Anonymous");
         return newAccount;
+    }
+
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+        );
+
+        Accounts accounts = accountRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
+        );
+
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(new CustomerDto(), customer);
+        customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
+        return customerDto;
     }
 }
