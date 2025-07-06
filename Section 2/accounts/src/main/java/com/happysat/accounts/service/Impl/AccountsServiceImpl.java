@@ -15,7 +15,6 @@ import com.happysat.accounts.service.AccountsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -36,8 +35,6 @@ public class AccountsServiceImpl implements AccountsService {
             throw new CustomerAlreadyExistsException("Customer already registered with given number " +customerDto.getMobileNumber());
         }
 
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("Anonymous");
         Customer savedCustomer = customerRepository.save(customer);
 
         accountRepository.save(createNewAccount(savedCustomer));
@@ -52,8 +49,6 @@ public class AccountsServiceImpl implements AccountsService {
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(AccountsConstants.SAVINGS);
         newAccount.setBranchAddress(AccountsConstants.ADDRESS);
-        newAccount.setCreatedAt(LocalDateTime.now());
-        newAccount.setCreatedBy("Anonymous");
         return newAccount;
     }
 
