@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
-public class Loans {
+public class Loans extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
