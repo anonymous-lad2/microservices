@@ -11,6 +11,7 @@
 	<groupId>com.happysat</groupId>
 	<artifactId>loans</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>loans</name>
 	<description>Microservices For Loans</description>
 	<url/>
@@ -93,6 +94,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>anonymouslad02/${project.artifactId}:s2</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
